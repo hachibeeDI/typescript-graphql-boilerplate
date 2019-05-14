@@ -1,0 +1,32 @@
+scalar Date
+
+enum Role {
+  USER,
+  ADMIN,
+}
+
+interface Node {
+  id: ID!
+}
+
+type User implements Node {
+  id: ID!
+  username: String!
+  email: String!
+  role: Role!
+}
+
+type Query {
+  me: User!
+  user(id: ID!): User
+  allUsers: [User]
+}
+
+type Mutation {
+  addUser(name: String!, email: String!): User!
+}
+
+schema {
+  query: Query
+  mutation: Mutation
+}
