@@ -43,6 +43,7 @@ export type User = Node & {
   email: Scalars["String"];
   role: Role;
 };
+import { Context } from "./src/context.ts";
 
 import {
   GraphQLResolveInfo,
@@ -138,7 +139,7 @@ export interface DateScalarConfig
 }
 
 export type MutationResolvers<
-  ContextType = any,
+  ContextType = Context,
   ParentType = ResolversTypes["Mutation"]
 > = {
   addUser?: Resolver<
@@ -150,7 +151,7 @@ export type MutationResolvers<
 };
 
 export type NodeResolvers<
-  ContextType = any,
+  ContextType = Context,
   ParentType = ResolversTypes["Node"]
 > = {
   __resolveType: TypeResolveFn<"User", ParentType, ContextType>;
@@ -158,7 +159,7 @@ export type NodeResolvers<
 };
 
 export type QueryResolvers<
-  ContextType = any,
+  ContextType = Context,
   ParentType = ResolversTypes["Query"]
 > = {
   me?: Resolver<ResolversTypes["User"], ParentType, ContextType>;
@@ -176,7 +177,7 @@ export type QueryResolvers<
 };
 
 export type UserResolvers<
-  ContextType = any,
+  ContextType = Context,
   ParentType = ResolversTypes["User"]
 > = {
   id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
@@ -185,7 +186,7 @@ export type UserResolvers<
   role?: Resolver<ResolversTypes["Role"], ParentType, ContextType>;
 };
 
-export type Resolvers<ContextType = any> = {
+export type Resolvers<ContextType = Context> = {
   Date?: GraphQLScalarType;
   Mutation?: MutationResolvers<ContextType>;
   Node?: NodeResolvers;
@@ -197,4 +198,4 @@ export type Resolvers<ContextType = any> = {
  * @deprecated
  * Use "Resolvers" root object instead. If you wish to get "IResolvers", add "typesPrefix: I" to your config.
  */
-export type IResolvers<ContextType = any> = Resolvers<ContextType>;
+export type IResolvers<ContextType = Context> = Resolvers<ContextType>;
