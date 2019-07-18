@@ -1,3 +1,6 @@
+console.log(__dirname);
+
+// https://github.com/typeorm/typeorm/blob/master/docs/connection-options.md
 module.exports = {
   type: "postgres",
   host: "localhost",
@@ -5,10 +8,15 @@ module.exports = {
   // TODO:
   username: "typeorm",
   password: "mytypeorm",
-  database: "typeorm-test",
+  database: "typeormtest",
   entities: [
-    __dirname + "/entities/*.ts"
+    "src/entities/*.ts"
   ],
-  synchronize: true,
-  logging: false
+  migrationsTableName: "custom_migration_table",
+  migrations: [__dirname + "/migration/*.js"],
+  synchronize: true,  // TODO: don't use this option for production
+  logging: false,
+  "cli": {
+    "migrationsDir": "migration"
+  }
 };
