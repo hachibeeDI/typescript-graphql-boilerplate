@@ -10,6 +10,8 @@ import { createConnection } from 'typeorm'
 
 
 import { resolvers } from './resolvers';
+import OrmConfig from '../ormconfig';
+
 
 // Construct a schema, using GraphQL schema language
 const schema = makeExecutableSchema({
@@ -20,20 +22,7 @@ const schema = makeExecutableSchema({
 const PORT = 8008;
 
 const main = async () => {
-  const connection = await createConnection({
-    // FIXME:
-    type: "mysql",
-    host: "localhost",
-    port: 3306,
-    username: "root",
-    password: "admin",
-    database: "test",
-    entities: [
-        __dirname + "/entities/*.ts"
-    ],
-    synchronize: true,
-    logging: false
-  });
+  const connection = await createConnection(OrmConfig);
 
   const app = express();
   app.get('/', (req, res) => res.send('Hello World!'))
