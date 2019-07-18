@@ -1,3 +1,9 @@
+import {
+  GraphQLResolveInfo,
+  GraphQLScalarType,
+  GraphQLScalarTypeConfig
+} from "graphql";
+import { Context } from "../context";
 export type Maybe<T> = T | null;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -10,6 +16,7 @@ export type Scalars = {
 };
 
 export type Mutation = {
+  __typename?: "Mutation";
   addUser: User;
 };
 
@@ -23,6 +30,7 @@ export type Node = {
 };
 
 export type Query = {
+  __typename?: "Query";
   me: User;
   user?: Maybe<User>;
   allUsers?: Maybe<Array<Maybe<User>>>;
@@ -38,20 +46,14 @@ export enum Role {
 }
 
 export type User = Node & {
+  __typename?: "User";
   id: Scalars["ID"];
   username: Scalars["String"];
   email: Scalars["String"];
   role: Role;
 };
-import { Context } from "./src/context.ts";
 
-import {
-  GraphQLResolveInfo,
-  GraphQLScalarType,
-  GraphQLScalarTypeConfig
-} from "graphql";
-
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+export type ResolverTypeWrapper<T> = Promise<T> | T;
 
 export type ResolverFn<TResult, TParent, TContext, TArgs> = (
   parent: TParent,
@@ -122,6 +124,19 @@ export type DirectiveResolverFn<
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
+  Query: ResolverTypeWrapper<{}>;
+  User: ResolverTypeWrapper<User>;
+  Node: ResolverTypeWrapper<Node>;
+  ID: ResolverTypeWrapper<Scalars["ID"]>;
+  String: ResolverTypeWrapper<Scalars["String"]>;
+  Role: Role;
+  Mutation: ResolverTypeWrapper<{}>;
+  Boolean: ResolverTypeWrapper<Scalars["Boolean"]>;
+  Date: ResolverTypeWrapper<Scalars["Date"]>;
+};
+
+/** Mapping between all available schema types and the resolvers parents */
+export type ResolversParentTypes = {
   Query: {};
   User: User;
   Node: Node;
@@ -140,7 +155,7 @@ export interface DateScalarConfig
 
 export type MutationResolvers<
   ContextType = Context,
-  ParentType = ResolversTypes["Mutation"]
+  ParentType = ResolversParentTypes["Mutation"]
 > = {
   addUser?: Resolver<
     ResolversTypes["User"],
@@ -152,7 +167,7 @@ export type MutationResolvers<
 
 export type NodeResolvers<
   ContextType = Context,
-  ParentType = ResolversTypes["Node"]
+  ParentType = ResolversParentTypes["Node"]
 > = {
   __resolveType: TypeResolveFn<"User", ParentType, ContextType>;
   id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
@@ -160,7 +175,7 @@ export type NodeResolvers<
 
 export type QueryResolvers<
   ContextType = Context,
-  ParentType = ResolversTypes["Query"]
+  ParentType = ResolversParentTypes["Query"]
 > = {
   me?: Resolver<ResolversTypes["User"], ParentType, ContextType>;
   user?: Resolver<
@@ -178,7 +193,7 @@ export type QueryResolvers<
 
 export type UserResolvers<
   ContextType = Context,
-  ParentType = ResolversTypes["User"]
+  ParentType = ResolversParentTypes["User"]
 > = {
   id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
   username?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
