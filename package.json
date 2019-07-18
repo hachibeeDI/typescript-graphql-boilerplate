@@ -3,7 +3,7 @@
   "scripts": {
     "start": "nodemon -e ts,graphql -x ts-node src/index.ts",
     "debug": "nodemon -e ts,graphql -x ts-node --inspect src/index.ts",
-    "generate": "graphql-codegen",
+    "typeorm": "ts-node ./node_modules/.bin/typeorm",
     "gen": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
